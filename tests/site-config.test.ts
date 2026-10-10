@@ -15,6 +15,11 @@ describe("site config", () => {
     ]);
   });
 
+  it("links to the owner's GitHub profile", () => {
+    const github = siteConfig.social.find((item) => item.label === "GitHub");
+    expect(github?.href).toBe("https://github.com/zzyTH01");
+  });
+
   it("exposes one navigation entry for every required section", () => {
     expect(navItems.map((item) => item.href)).toEqual([
       "/",

@@ -1,6 +1,7 @@
 ---
 import TagList from "./TagList.astro";
 import type { Resource } from "../data/resources";
+import { with_base } from "../lib/paths";
 
 interface Props {
   resource: Resource;
@@ -8,6 +9,7 @@ interface Props {
 
 const { resource } = Astro.props;
 const localFile = resource.type === "file" && resource.href.startsWith("/");
+const resourceHref = with_base(resource.href);
 ---
 
 <article class="card resource-card">
@@ -20,7 +22,7 @@ const localFile = resource.type === "file" && resource.href.startsWith("/");
   <TagList tags={resource.tags} />
   <a
     class="resource-button"
-    href={resource.href}
+    href={resourceHref}
     download={localFile ? "" : undefined}
     target={resource.type === "link" ? "_blank" : undefined}
     rel={resource.type === "link" ? "noopener noreferrer" : undefined}

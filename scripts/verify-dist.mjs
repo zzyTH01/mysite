@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const distDir = fileURLToPath(new URL("../dist/", import.meta.url));
+const basePath = "/mysite";
 const requiredRoutes = [
   "index.html",
   "about/index.html",
@@ -92,7 +93,10 @@ for (const file of files) {
     if (checkedLinks.has(key)) continue;
     checkedLinks.add(key);
 
-    const cleanPath = decodeURIComponent(pathname);
+    let cleanPath = decodeURIComponent(pathname);
+    if (cleanPath === basePath || cleanPath.startsWith(`${basePath}/`)) {
+      cleanPath = cleanPath.slice(basePath.length) || "/";
+    }
     const target = cleanPath.endsWith("/")
       ? path.posix.join(cleanPath, "index.html")
       : /\.[a-zA-Z0-9]+$/.test(cleanPath)

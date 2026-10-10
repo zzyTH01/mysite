@@ -2,6 +2,7 @@
 import BaseLayout from "./BaseLayout.astro";
 import TagList from "../components/TagList.astro";
 import { format_date } from "../lib/content";
+import { with_base } from "../lib/paths";
 
 interface Props {
   title: string;
@@ -17,7 +18,7 @@ const { title, description, date, tags, backHref, backLabel } = Astro.props;
 
 <BaseLayout title={`${title} · 高瞻远瞩`} description={description}>
   <article class="container page">
-    <a class="back-link" href={backHref}>{backLabel}</a>
+    <a class="back-link" href={with_base(backHref)}>{backLabel}</a>
     <header class="post-header">
       <time datetime={date.toISOString()}>{format_date(date)}</time>
       <h1>{title}</h1>

@@ -10,7 +10,7 @@ export const siteConfig = {
   email: "hello@gaozhangyuanzhu.example",
   social: [
     { label: "邮箱", href: "mailto:hello@gaozhangyuanzhu.example", external: false },
-    { label: "GitHub", href: "https://github.com/", external: true },
+    { label: "GitHub", href: "https://github.com/zzyTH01", external: true },
     { label: "Bilibili", href: "https://www.bilibili.com/", external: true },
     { label: "小红书", href: "https://www.xiaohongshu.com/", external: true },
   ],

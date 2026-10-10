@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { siteConfig } from "../config/site";
+import { with_base } from "../lib/paths";
 ---
 
 <BaseLayout title="404 · 页面不存在" description="你访问的页面不存在，可以从首页或资源页继续浏览。">
@@ -9,8 +10,8 @@ import { siteConfig } from "../config/site";
     <h1>404</h1>
     <p class="lead">这里的路线好像中断了。你可以回到首页，或者先看看资源下载。</p>
     <div class="hero-actions">
-      <a class="resource-button" href="/">返回首页</a>
-      <a class="ghost-button" href="/resources/">查看资源</a>
+      <a class="resource-button" href={with_base("/")}>返回首页</a>
+      <a class="ghost-button" href={with_base("/resources/")}>查看资源</a>
     </div>
     <p class="not-found-owner">{siteConfig.id} · {siteConfig.role}</p>
   </section>

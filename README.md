@@ -108,70 +108,36 @@ public/downloads/gaozhangyuanzhu-resume.pdf
 
 保持文件名不变时，网站中的下载按钮不需要修改。如果改名，同步更新 `src/data/resources.ts` 和 `src/pages/about.astro`。
 
-## 部署到 Vercel
+## 发布到 GitHub Pages
 
-1. 在 GitHub 创建空仓库。
-2. 在项目目录执行：
+这个项目已经配置为部署到当前仓库：
+
+```text
+https://github.com/zzyTH01/mysite
+https://zzyth01.github.io/mysite/
+```
+
+部署配置位于 `.github/workflows/deploy.yml`。每次把 `main` 分支推送到 GitHub 后，Actions 会自动执行：
 
 ```bash
-git remote add origin git@github.com:<your-username>/<your-repo>.git
-git push -u origin main
+npm ci
+npm run verify
 ```
 
-3. 打开 Vercel，选择 Add New Project，导入这个 GitHub 仓库。
-4. Framework Preset 选择 Astro。
-5. Build Command 使用 `npm run build`，Output Directory 使用 `dist`。
-6. 部署完成后使用 Vercel 提供的域名访问。
-7. 如需使用自己的域名，在 Vercel 的 Domains 设置中绑定。
+验证和构建通过后，会把 `dist/` 发布到 GitHub Pages。
 
-## 部署到 GitHub Pages
+首次部署时，GitHub Actions 中的 Configure GitHub Pages 步骤会尝试启用 Pages。如果仓库设置页面显示 Pages source 不是 GitHub Actions，手动打开：
 
-1. 将项目推送到 GitHub 仓库。
-2. 在仓库的 Settings > Pages 中选择 GitHub Actions。
-3. 添加 `.github/workflows/deploy.yml`：
-
-```yaml
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: withastro/action@v2
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+```text
+GitHub 仓库 > Settings > Pages > Build and deployment > Source > GitHub Actions
 ```
 
-4. 如果仓库名不是用户主页仓库，需要修改 `astro.config.mjs`：
+然后回到 Actions 页面重新运行 `Deploy to GitHub Pages`。
 
-```js
-export default defineConfig({
-  site: "https://<your-username>.github.io",
-  base: "/<your-repo>",
-});
+本地检查远端状态：
+
+```bash
+git remote -v
+git status
+git log --oneline -5
 ```
-
-5. 推送后等待 GitHub Actions 完成。

@@ -3,6 +3,7 @@ import { getCollection, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import TagList from "../../components/TagList.astro";
 import { format_date, visibleEntries } from "../../lib/content";
+import { with_base } from "../../lib/paths";
 
 export async function getStaticPaths() {
   const entries = await getCollection("life");
@@ -22,7 +23,7 @@ const { Content } = await render(entry);
 
 <BaseLayout title={`${entry.data.title} · 高瞻远瞩`} description={entry.data.summary}>
   <article class="container page">
-    <a class="back-link" href="/life/">返回生活记录</a>
+    <a class="back-link" href={with_base("/life/")}>返回生活记录</a>
     <header class="post-header">
       <p class="life-detail-meta">
         <time datetime={entry.data.date.toISOString()}>{format_date(entry.data.date)}</time>
@@ -34,7 +35,7 @@ const { Content } = await render(entry);
     </header>
     {entry.data.photos.length > 0 && (
       <div class="life-detail-photos">
-        {entry.data.photos.map((photo) => <img src={photo} alt={`${entry.data.title} 的记录照片`} loading="lazy" />)}
+        {entry.data.photos.map((photo) => <img src={with_base(photo)} alt={`${entry.data.title} 的记录照片`} loading="lazy" />)}
       </div>
     )}
     <div class="rich-text">

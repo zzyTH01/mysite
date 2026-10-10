@@ -1,6 +1,7 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
 import { navItems } from "../config/site";
+import { with_base } from "../lib/paths";
 
 const pathname = Astro.url.pathname;
 const isActive = (href: string) => href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -8,13 +9,13 @@ const isActive = (href: string) => href === "/" ? pathname === "/" : pathname.st
 
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="/">
+    <a class="brand" href={with_base("/")}>
       <span class="brand-mark" aria-hidden="true"></span>
       <span>高瞻远瞩</span>
     </a>
     <nav class="desktop-nav" aria-label="主导航">
       {navItems.map((item) => (
-        <a class:list={["nav-link", { active: isActive(item.href) }]} aria-current={isActive(item.href) ? "page" : undefined} href={item.href}>{item.label}</a>
+        <a class:list={["nav-link", { active: isActive(item.href) }]} aria-current={isActive(item.href) ? "page" : undefined} href={with_base(item.href)}>{item.label}</a>
       ))}
     </nav>
     <div class="header-actions">
@@ -27,7 +28,7 @@ const isActive = (href: string) => href === "/" ? pathname === "/" : pathname.st
   </div>
   <nav id="site-nav" class="mobile-nav" aria-label="移动端导航">
     {navItems.map((item) => (
-      <a class:list={["mobile-nav-link", { active: isActive(item.href) }]} aria-current={isActive(item.href) ? "page" : undefined} href={item.href}>{item.label}</a>
+      <a class:list={["mobile-nav-link", { active: isActive(item.href) }]} aria-current={isActive(item.href) ? "page" : undefined} href={with_base(item.href)}>{item.label}</a>
     ))}
   </nav>
 </header>

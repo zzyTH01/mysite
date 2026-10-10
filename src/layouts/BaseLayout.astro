@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { with_base } from "../lib/paths";
 import BaseHeader from "../components/BaseHeader.astro";
 import BaseFooter from "../components/BaseFooter.astro";
 
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const { title, description = "高瞻远瞩的个人网站。" } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const canonical = new URL(with_base(Astro.url.pathname), Astro.site);
 ---
 
 <!doctype html>
@@ -24,8 +25,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL("/og/default.png", Astro.site)} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:image" content={new URL(with_base("/og/default.png"), Astro.site)} />
+    <link rel="icon" type="image/svg+xml" href={with_base("/favicon.svg")} />
     <link rel="canonical" href={canonical} />
   </head>
   <body class="min-h-screen antialiased">
