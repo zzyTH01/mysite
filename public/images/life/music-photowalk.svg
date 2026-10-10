@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="音乐扫街记录插画">
+  <rect width="800" height="500" fill="#0A0A0A"/>
+  <rect x="90" y="90" width="250" height="320" rx="20" fill="#E10600"/>
+  <rect x="390" y="140" width="320" height="270" rx="20" fill="#FFFFFF" opacity=".9"/>
+  <circle cx="215" cy="210" r="48" fill="#FFFFFF"/>
+  <path d="M455 330c0-45 34-72 72-83v-58l130-31v51c-38 9-72 36-72 81 0 35-29 58-65 58s-65-18-65-18Z" fill="#E10600"/>
+  <path d="M390 90h320v16H390z" fill="#E5E7EB"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="夜骑记录插画">
+  <rect width="800" height="500" fill="#0A0A0A"/>
+  <circle cx="640" cy="120" r="55" fill="#E5E7EB" opacity=".82"/>
+  <rect y="330" width="800" height="170" fill="#111111"/>
+  <path d="M0 405h800" stroke="#6B7280" stroke-width="4"/>
+  <path d="M120 360h120v70H120z" fill="#E10600"/>
+  <circle cx="150" cy="440" r="30" fill="none" stroke="#FFFFFF" stroke-width="7"/>
+  <circle cx="225" cy="440" r="30" fill="none" stroke="#FFFFFF" stroke-width="7"/>
+  <path d="M150 440h35l18-42h47" stroke="#FFFFFF" stroke-width="7" fill="none"/>
+</svg>

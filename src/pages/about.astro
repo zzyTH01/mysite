@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import TagList from "../components/TagList.astro";
+import { siteConfig } from "../config/site";
+---
+
+<BaseLayout title="关于 · 高瞻远瞩" description={siteConfig.description}>
+  <section class="container page">
+    <p class="eyebrow">About Me</p>
+    <h1 class="page-title">{siteConfig.id}</h1>
+    <p class="lead">
+      我是{siteConfig.id}，一名{siteConfig.role}。我喜欢在学习和爱好之间找连接：用赛车理解节奏与决策，用摄影和骑行观察城市，用音乐和二次元保存情绪。
+    </p>
+    <TagList tags={[...siteConfig.keywords]} />
+
+    <div class="about-grid">
+      <section class="about-card">
+        <h2>教育经历</h2>
+        <p>当前为占位信息：在校学生，学习方向持续探索中。</p>
+        <p class="muted">后续可以在这里补充学校、专业、时间段和代表性课程。</p>
+      </section>
+      <section class="about-card">
+        <h2>项目与作品</h2>
+        <ul>
+          <li><strong>个人网站</strong>：记录观点、博客和生活。</li>
+          <li><strong>城市骑行记录</strong>：保存路线、感受与街头照片。</li>
+          <li><strong>摄影小集</strong>：关注光线、红色元素和城市节奏。</li>
+        </ul>
+      </section>
+      <section class="about-card">
+        <h2>兴趣与技能</h2>
+        <ul>
+          <li>内容写作：博客、短观点、生活记录。</li>
+          <li>视觉观察：街头摄影、光线与构图。</li>
+          <li>运动习惯：城市骑行与节奏训练。</li>
+          <li>兴趣研究：动画、赛车、音乐现场。</li>
+        </ul>
+      </section>
+      <section class="about-card">
+        <h2>联系与合作</h2>
+        <p>欢迎交流学习、摄影、骑行或个人网站相关的话题。</p>
+        <ul class="footer-links">
+          {siteConfig.social.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noopener noreferrer" : undefined}
+              >{item.label}</a>
+            </li>
+          ))}
+        </ul>
+        <a class="resource-button" href="/downloads/gaozhangyuanzhu-resume.pdf" download>下载简历 PDF</a>
+      </section>
+    </div>
+  </section>
+</BaseLayout>
