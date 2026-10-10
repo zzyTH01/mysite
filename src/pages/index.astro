@@ -1,17 +1,93 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import PostCard from "../components/PostCard.astro";
+import LifeCard from "../components/LifeCard.astro";
 import { siteConfig } from "../config/site";
+import { format_date, sort_by_date_desc, visibleEntries } from "../lib/content";
+import { latest_items } from "../lib/homepage";
+
+const posts = visibleEntries(await getCollection("blog"), import.meta.env.PROD);
+const notes = visibleEntries(await getCollection("notes"), import.meta.env.PROD);
+const lifeEntries = sort_by_date_desc(visibleEntries(await getCollection("life"), import.meta.env.PROD));
+
+const latestUpdates = latest_items(
+  posts.map((entry) => ({
+    title: entry.data.title,
+    data: { date: entry.data.date },
+    href: `/blog/${entry.id}/`,
+    summary: entry.data.description,
+    tags: entry.data.tags,
+    kind: "博客",
+  })),
+  notes.map((entry) => ({
+    title: entry.data.title,
+    data: { date: entry.data.date },
+    href: `/notes/${entry.id}/`,
+    summary: "点击阅读这条短观点。",
+    tags: entry.data.tags,
+    kind: "观点",
+  })),
+  { limit: 4 },
+);
 ---
 
 <BaseLayout title={`${siteConfig.id} · ${siteConfig.role}`} description={siteConfig.description}>
   <section class="hero">
     <div class="container hero-inner">
-      <p class="eyebrow">{siteConfig.role}</p>
+      <p class="eyebrow">{siteConfig.role} · Personal Site</p>
       <h1>{siteConfig.id}</h1>
       <p class="hero-tagline">{siteConfig.tagline}</p>
       <ul class="keyword-list hero-keywords">
         {siteConfig.keywords.map((keyword) => <li>{keyword}</li>)}
       </ul>
+      <div class="hero-actions">
+        <a class="resource-button" href="/about/">了解我</a>
+        <a class="ghost-button" href="/blog/">阅读博客</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <SectionTitle title="最新内容" subtitle="博客和观点合并展示，保持首页新鲜。" />
+    <div class="card-grid homepage-grid">
+      {latestUpdates.map((entry) => (
+        <div class="kind-wrapper">
+          <span class="kind-label">{entry.kind}</span>
+          <PostCard title={entry.title} href={entry.href} date={entry.data.date} summary={entry.summary} tags={entry.tags} />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="container section">
+    <SectionTitle title="最近生活" subtitle="骑行、摄影、动画和音乐留下的碎片。" />
+    <div class="life-grid home-life-grid">
+      {lifeEntries.slice(0, 3).map((entry) => (
+        <LifeCard
+          title={entry.data.title}
+          href={`/life/${entry.id}/`}
+          date={entry.data.date}
+          summary={entry.data.summary}
+          location={entry.data.location}
+          tags={entry.data.tags}
+          photos={entry.data.photos}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="cta-panel">
+      <div>
+        <h2>简历与资源</h2>
+        <p>查看我的学生简历，或下载用于整理内容的清单。</p>
+      </div>
+      <div class="cta-actions">
+        <a class="resource-button" href="/about/">查看简历页</a>
+        <a class="ghost-button" href="/resources/">资源下载</a>
+      </div>
     </div>
   </section>
 </BaseLayout>
