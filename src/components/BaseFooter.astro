@@ -1,0 +1,34 @@
+---
+import { siteConfig } from "../config/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="footer-id">{siteConfig.id}</p>
+      <p class="muted">{siteConfig.role} · {siteConfig.tagline}</p>
+      <ul class="keyword-list">
+        {siteConfig.keywords.map((keyword) => <li>{keyword}</li>)}
+      </ul>
+    </div>
+    <div>
+      <h2>联系</h2>
+      <ul class="footer-links">
+        {siteConfig.social.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              target={item.external ? "_blank" : undefined}
+              rel={item.external ? "noopener noreferrer" : undefined}
+            >{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© {year} {siteConfig.id}. 保留所有权利。</p>
+    <a href="#main">返回顶部</a>
+  </div>
+</footer>

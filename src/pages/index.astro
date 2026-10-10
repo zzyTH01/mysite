@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteConfig } from "../config/site";
+---
+
+<BaseLayout title={`${siteConfig.id} · ${siteConfig.role}`} description={siteConfig.description}>
+  <section class="hero">
+    <div class="container hero-inner">
+      <p class="eyebrow">{siteConfig.role}</p>
+      <h1>{siteConfig.id}</h1>
+      <p class="hero-tagline">{siteConfig.tagline}</p>
+      <ul class="keyword-list hero-keywords">
+        {siteConfig.keywords.map((keyword) => <li>{keyword}</li>)}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

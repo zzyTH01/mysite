@@ -1,0 +1,51 @@
+---
+import "../styles/global.css";
+import BaseHeader from "../components/BaseHeader.astro";
+import BaseFooter from "../components/BaseFooter.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "高瞻远瞩的个人网站。" } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="zh-CN" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="高瞻远瞩" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL("/og/default.png", Astro.site)} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+  </head>
+  <body class="min-h-screen antialiased">
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <BaseHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <BaseFooter />
+    <script is:inline>
+      const root = document.documentElement;
+      const saved = localStorage.getItem("theme");
+      if (saved === "light") root.classList.replace("dark", "light");
+      document.addEventListener("click", (event) => {
+        const target = event.target.closest("[data-theme-toggle]");
+        if (!target) return;
+        root.classList.toggle("dark");
+        root.classList.toggle("light");
+        localStorage.setItem("theme", root.classList.contains("dark") ? "dark" : "light");
+      });
+    </script>
+  </body>
+</html>
