@@ -3,7 +3,6 @@ import { getCollection, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import TagList from "../../components/TagList.astro";
 import { format_date, visibleEntries } from "../../lib/content";
-import { siteConfig } from "../../config/site";
 
 export async function getStaticPaths() {
   const entries = await getCollection("life");

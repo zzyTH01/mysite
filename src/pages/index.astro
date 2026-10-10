@@ -5,7 +5,7 @@ import SectionTitle from "../components/SectionTitle.astro";
 import PostCard from "../components/PostCard.astro";
 import LifeCard from "../components/LifeCard.astro";
 import { siteConfig } from "../config/site";
-import { format_date, sort_by_date_desc, visibleEntries } from "../lib/content";
+import { sort_by_date_desc, visibleEntries } from "../lib/content";
 import { latest_items } from "../lib/homepage";
 
 const posts = visibleEntries(await getCollection("blog"), import.meta.env.PROD);
