@@ -1,0 +1,45 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TagList from "../../components/TagList.astro";
+import { format_date, visibleEntries } from "../../lib/content";
+import { siteConfig } from "../../config/site";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("life");
+  return visibleEntries(entries, import.meta.env.PROD).map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"life">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={`${entry.data.title} · 高瞻远瞩`} description={entry.data.summary}>
+  <article class="container page">
+    <a class="back-link" href="/life/">返回生活记录</a>
+    <header class="post-header">
+      <p class="life-detail-meta">
+        <time datetime={entry.data.date.toISOString()}>{format_date(entry.data.date)}</time>
+        {entry.data.location && <span>· {entry.data.location}</span>}
+      </p>
+      <h1>{entry.data.title}</h1>
+      <p class="life-summary">{entry.data.summary}</p>
+      <TagList tags={entry.data.tags} />
+    </header>
+    {entry.data.photos.length > 0 && (
+      <div class="life-detail-photos">
+        {entry.data.photos.map((photo) => <img src={photo} alt={`${entry.data.title} 的记录照片`} loading="lazy" />)}
+      </div>
+    )}
+    <div class="rich-text">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

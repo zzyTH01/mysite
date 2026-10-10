@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionTitle from "../../components/SectionTitle.astro";
+import LifeCard from "../../components/LifeCard.astro";
+import { sort_by_date_desc, visibleEntries } from "../../lib/content";
+
+const entries = sort_by_date_desc(visibleEntries(await getCollection("life"), import.meta.env.PROD));
+---
+
+<BaseLayout title="生活记录 · 高瞻远瞩" description="骑行、摄影、动画、音乐和日常片段的时间线。">
+  <section class="container page">
+    <SectionTitle title="生活记录" subtitle="把值得记住的日常放到时间线上。" />
+    {entries.length === 0 ? <p class="empty-state">生活记录正在准备中。</p> : (
+      <div class="life-grid">
+        {entries.map((entry) => (
+          <LifeCard
+            title={entry.data.title}
+            href={`/life/${entry.id}/`}
+            date={entry.data.date}
+            summary={entry.data.summary}
+            location={entry.data.location}
+            tags={entry.data.tags}
+            photos={entry.data.photos}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>

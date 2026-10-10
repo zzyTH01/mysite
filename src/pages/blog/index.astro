@@ -1,0 +1,22 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionTitle from "../../components/SectionTitle.astro";
+import PostCard from "../../components/PostCard.astro";
+import { sort_by_date_desc, visibleEntries } from "../../lib/content";
+
+const entries = sort_by_date_desc(visibleEntries(await getCollection("blog"), import.meta.env.PROD));
+---
+
+<BaseLayout title="博客 · 高瞻远瞩" description="高瞻远瞩的长文章：赛车观察、摄影思考、骑行记录与学习笔记。">
+  <section class="container page">
+    <SectionTitle title="博客" subtitle="较长、较完整的记录与思考。" />
+    {entries.length === 0 ? <p class="empty-state">博客文章正在准备中。</p> : (
+      <div class="card-grid">
+        {entries.map((entry) => (
+          <PostCard title={entry.data.title} href={`/blog/${entry.id}/`} date={entry.data.date} summary={entry.data.description} tags={entry.data.tags} />
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>

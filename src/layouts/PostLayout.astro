@@ -1,0 +1,30 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import TagList from "../components/TagList.astro";
+import { format_date } from "../lib/content";
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  tags: string[];
+  backHref: string;
+  backLabel: string;
+}
+
+const { title, description, date, tags, backHref, backLabel } = Astro.props;
+---
+
+<BaseLayout title={`${title} · 高瞻远瞩`} description={description}>
+  <article class="container page">
+    <a class="back-link" href={backHref}>{backLabel}</a>
+    <header class="post-header">
+      <time datetime={date.toISOString()}>{format_date(date)}</time>
+      <h1>{title}</h1>
+      <TagList tags={tags} />
+    </header>
+    <div class="rich-text">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>

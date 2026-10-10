@@ -1,0 +1,33 @@
+---
+import TagList from "./TagList.astro";
+import { format_date } from "../lib/content";
+
+interface Props {
+  title: string;
+  href: string;
+  date: Date;
+  summary: string;
+  location?: string;
+  tags: string[];
+  photos: string[];
+}
+
+const { title, href, date, summary, location, tags, photos } = Astro.props;
+---
+
+<article class="card life-card">
+  <a class="card-link" href={href}>
+    <div class="life-meta">
+      <time datetime={date.toISOString()}>{format_date(date)}</time>
+      {location && <span>· {location}</span>}
+    </div>
+    <h3>{title}</h3>
+    <p>{summary}</p>
+    {photos.length > 0 && (
+      <div class="life-photo-row">
+        {photos.slice(0, 3).map((photo) => <img src={photo} alt={`${title} 的记录照片`} loading="lazy" />)}
+      </div>
+    )}
+    <TagList tags={tags} />
+  </a>
+</article>
