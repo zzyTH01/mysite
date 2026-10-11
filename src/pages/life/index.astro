@@ -10,13 +10,14 @@ const entries = sort_by_date_desc(visibleEntries(await getCollection("life"), im
 
 <BaseLayout title="生活记录 · 高瞻远瞩" description="骑行、摄影、动画、音乐和日常片段的时间线。">
   <section class="container page">
-    <SectionTitle title="生活记录" subtitle="把值得记住的日常放到时间线上。" />
+    <SectionTitle title="生活记录" subtitle="把值得记住的日常放到时间线上。" code="LIFE LOG / 03" />
     {entries.length === 0 ? <p class="empty-state">生活记录正在准备中。</p> : (
       <div class="life-grid">
-        {entries.map((entry) => (
+        {entries.map((entry, index) => (
           <LifeCard
             title={entry.data.title}
             href={`/life/${entry.id}/`}
+            number={index + 1}
             date={entry.data.date}
             summary={entry.data.summary}
             location={entry.data.location}

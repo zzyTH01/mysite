@@ -3,19 +3,27 @@ import ThemeToggle from "./ThemeToggle.astro";
 import { navItems } from "../config/site";
 import { with_base } from "../lib/paths";
 
-const pathname = Astro.url.pathname;
-const isActive = (href: string) => href === "/" ? pathname === "/" : pathname.startsWith(href);
+const rawPathname = Astro.url.pathname.replace(/\/index\.html$/, "/");
+const isActive = (href: string) => {
+  const target = with_base(href);
+  if (target === with_base("/")) return rawPathname === target;
+  return rawPathname.startsWith(target);
+};
 ---
 
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href={with_base("/")}>
       <span class="brand-mark" aria-hidden="true"></span>
-      <span>高瞻远瞩</span>
+      <span class="brand-text">高瞻远瞩</span>
+      <span class="brand-code">GZYZ-01</span>
     </a>
     <nav class="desktop-nav" aria-label="主导航">
-      {navItems.map((item) => (
-        <a class:list={["nav-link", { active: isActive(item.href) }]} aria-current={isActive(item.href) ? "page" : undefined} href={with_base(item.href)}>{item.label}</a>
+      {navItems.map((item, index) => (
+        <a class:list={["nav-link", { active: isActive(item.href) }]} aria-current={isActive(item.href) ? "page" : undefined} href={with_base(item.href)}>
+          <span class="nav-no" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+          <span>{item.label}</span>
+        </a>
       ))}
     </nav>
     <div class="header-actions">
@@ -27,8 +35,11 @@ const isActive = (href: string) => href === "/" ? pathname === "/" : pathname.st
     </div>
   </div>
   <nav id="site-nav" class="mobile-nav" aria-label="移动端导航">
-    {navItems.map((item) => (
-      <a class:list={["mobile-nav-link", { active: isActive(item.href) }]} aria-current={isActive(item.href) ? "page" : undefined} href={with_base(item.href)}>{item.label}</a>
+    {navItems.map((item, index) => (
+      <a class:list={["mobile-nav-link", { active: isActive(item.href) }]} aria-current={isActive(item.href) ? "page" : undefined} href={with_base(item.href)}>
+        <span class="mobile-nav-no" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+        <span>{item.label}</span>
+      </a>
     ))}
   </nav>
 </header>

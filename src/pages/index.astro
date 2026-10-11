@@ -4,6 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionTitle from "../components/SectionTitle.astro";
 import PostCard from "../components/PostCard.astro";
 import LifeCard from "../components/LifeCard.astro";
+import Marquee from "../components/Marquee.astro";
 import { siteConfig } from "../config/site";
 import { sort_by_date_desc, visibleEntries } from "../lib/content";
 import { latest_items } from "../lib/homepage";
@@ -15,20 +16,20 @@ const lifeEntries = sort_by_date_desc(visibleEntries(await getCollection("life")
 
 const latestUpdates = latest_items(
   posts.map((entry) => ({
-    title: entry.data.title,
     data: { date: entry.data.date },
+    title: entry.data.title,
     href: `/blog/${entry.id}/`,
     summary: entry.data.description,
     tags: entry.data.tags,
-    kind: "博客",
+    kind: "BLOG",
   })),
   notes.map((entry) => ({
-    title: entry.data.title,
     data: { date: entry.data.date },
+    title: entry.data.title,
     href: `/notes/${entry.id}/`,
     summary: "点击阅读这条短观点。",
     tags: entry.data.tags,
-    kind: "观点",
+    kind: "NOTE",
   })),
   { limit: 4 },
 );
@@ -36,9 +37,23 @@ const latestUpdates = latest_items(
 
 <BaseLayout title={`${siteConfig.id} · ${siteConfig.role}`} description={siteConfig.description}>
   <section class="hero">
-    <div class="container hero-inner">
-      <p class="eyebrow">{siteConfig.role} · Personal Site</p>
-      <h1>{siteConfig.id}</h1>
+    <div class="hero-frame" aria-hidden="true">
+      <span class="hero-grid"></span>
+      <span class="hero-shard hero-shard-one"></span>
+      <span class="hero-shard hero-shard-two"></span>
+      <span class="hero-shard hero-shard-three"></span>
+      <span class="hero-big-code">01</span>
+    </div>
+    <div class="container hero-inner" data-reveal>
+      <div class="hero-badge">
+        <span>PERSONAL FILE</span>
+        <strong>{siteConfig.role}</strong>
+      </div>
+      <p class="eyebrow">STUDENT / CREATOR / VIBE</p>
+      <h1 class="hero-title">
+        <span class="hero-title-line">高瞻</span>
+        <span class="hero-title-line hero-outline">远瞩</span>
+      </h1>
       <p class="hero-tagline">{siteConfig.tagline}</p>
       <ul class="keyword-list hero-keywords">
         {siteConfig.keywords.map((keyword) => <li>{keyword}</li>)}
@@ -50,38 +65,43 @@ const latestUpdates = latest_items(
     </div>
   </section>
 
+  <Marquee />
+
   <section class="container section">
-    <SectionTitle title="最新内容" subtitle="博客和观点合并展示，保持首页新鲜。" />
+    <SectionTitle title="最新内容" subtitle="博客和观点合并展示，保持首页新鲜。" code="LATEST / 04" />
     <div class="card-grid homepage-grid">
       {latestUpdates.map((entry) => (
-        <div class="kind-wrapper">
-          <span class="kind-label">{entry.kind}</span>
-          <PostCard title={entry.title} href={entry.href} date={entry.data.date} summary={entry.summary} tags={entry.tags} />
+        <div class="kind-wrapper" data-reveal>
+          <PostCard title={entry.title} href={entry.href} date={entry.data.date} summary={entry.summary} tags={entry.tags} kind={entry.kind} />
         </div>
       ))}
     </div>
   </section>
 
   <section class="container section">
-    <SectionTitle title="最近生活" subtitle="骑行、摄影、动画和音乐留下的碎片。" />
+    <SectionTitle title="最近生活" subtitle="骑行、摄影、动画和音乐留下的碎片。" code="LIFE LOG" />
     <div class="life-grid home-life-grid">
-      {lifeEntries.slice(0, 3).map((entry) => (
-        <LifeCard
-          title={entry.data.title}
-          href={`/life/${entry.id}/`}
-          date={entry.data.date}
-          summary={entry.data.summary}
-          location={entry.data.location}
-          tags={entry.data.tags}
-          photos={entry.data.photos}
-        />
+      {lifeEntries.slice(0, 3).map((entry, index) => (
+        <div data-reveal>
+          <LifeCard
+            title={entry.data.title}
+            href={`/life/${entry.id}/`}
+            date={entry.data.date}
+            summary={entry.data.summary}
+            location={entry.data.location}
+            tags={entry.data.tags}
+            photos={entry.data.photos}
+            number={index + 1}
+          />
+        </div>
       ))}
     </div>
   </section>
 
   <section class="container">
-    <div class="cta-panel">
+    <div class="cta-panel" data-reveal>
       <div>
+        <p class="eyebrow">NEXT COMMAND</p>
         <h2>简历与资源</h2>
         <p>查看我的学生简历，或下载用于整理内容的清单。</p>
       </div>

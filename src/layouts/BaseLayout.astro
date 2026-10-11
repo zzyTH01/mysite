@@ -1,8 +1,8 @@
 ---
 import "../styles/global.css";
-import { with_base } from "../lib/paths";
 import BaseHeader from "../components/BaseHeader.astro";
 import BaseFooter from "../components/BaseFooter.astro";
+import { with_base } from "../lib/paths";
 
 interface Props {
   title: string;
@@ -21,6 +21,7 @@ const canonical = new URL(with_base(Astro.url.pathname), Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="高瞻远瞩" />
+    <meta name="theme-color" content="#E10600" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -47,6 +48,26 @@ const canonical = new URL(with_base(Astro.url.pathname), Astro.site);
         root.classList.toggle("light");
         localStorage.setItem("theme", root.classList.contains("dark") ? "dark" : "light");
       });
+    </script>
+    <script>
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const revealTargets = document.querySelectorAll("[data-reveal]");
+      if (reduceMotion || !("IntersectionObserver" in window)) {
+        revealTargets.forEach((target) => target.classList.add("revealed"));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("revealed");
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: "0px 0px -12% 0px", threshold: 0.08 },
+        );
+        revealTargets.forEach((target) => observer.observe(target));
+      }
     </script>
   </body>
 </html>

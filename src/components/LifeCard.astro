@@ -11,13 +11,15 @@ interface Props {
   location?: string;
   tags: string[];
   photos: string[];
+  number?: number;
 }
 
-const { title, href, date, summary, location, tags, photos } = Astro.props;
+const { title, href, date, summary, location, tags, photos, number = 1 } = Astro.props;
 ---
 
 <article class="card life-card">
   <a class="card-link" href={with_base(href)}>
+    <span class="life-no" aria-hidden="true">{String(number).padStart(2, "0")}</span>
     <div class="life-meta">
       <time datetime={date.toISOString()}>{format_date(date)}</time>
       {location && <span>· {location}</span>}

@@ -13,6 +13,7 @@ const resourceHref = with_base(resource.href);
 ---
 
 <article class="card resource-card">
+  <span class="card-corner" aria-hidden="true"></span>
   <div class="resource-meta">
     <span>{resource.category}</span>
     <time datetime={resource.date}>{resource.date}</time>
@@ -27,6 +28,7 @@ const resourceHref = with_base(resource.href);
     target={resource.type === "link" ? "_blank" : undefined}
     rel={resource.type === "link" ? "noopener noreferrer" : undefined}
   >
-    {resource.type === "file" ? "下载资源" : "打开链接"}
+    <span class="command-label">{resource.type === "file" ? "GET ITEM" : "OPEN LINK"}</span>
+    <span class="command-detail">{resource.type === "file" ? "下载资源" : "打开链接"}</span>
   </a>
 </article>

@@ -10,7 +10,7 @@ const entries = sort_by_date_desc(visibleEntries(await getCollection("blog"), im
 
 <BaseLayout title="博客 · 高瞻远瞩" description="高瞻远瞩的长文章：赛车观察、摄影思考、骑行记录与学习笔记。">
   <section class="container page">
-    <SectionTitle title="博客" subtitle="较长、较完整的记录与思考。" />
+    <SectionTitle title="博客" subtitle="较长、较完整的记录与思考。" code="BLOG ARCHIVE / 01" />
     {entries.length === 0 ? <p class="empty-state">博客文章正在准备中。</p> : (
       <div class="card-grid">
         {entries.map((entry) => (

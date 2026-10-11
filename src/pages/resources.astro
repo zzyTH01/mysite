@@ -9,7 +9,7 @@ const items = available_resources(resources);
 
 <BaseLayout title="资源下载 · 高瞻远瞩" description="简历、模板和愿意公开分享的资源。">
   <section class="container page">
-    <SectionTitle title="资源下载" subtitle="这里放简历、模板和可以复用的小工具。" />
+    <SectionTitle title="资源下载" subtitle="这里放简历、模板和可以复用的小工具。" code="INVENTORY / 04" />
     {items.length === 0 ? <p class="empty-state">资源正在整理中。</p> : (
       <div class="card-grid resources-grid">
         {items.map((resource) => <ResourceCard resource={resource} />)}

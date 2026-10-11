@@ -10,7 +10,7 @@ const entries = sort_by_date_desc(visibleEntries(await getCollection("notes"), i
 
 <BaseLayout title="观点 · 高瞻远瞩" description="高瞻远瞩的短观点：直接、轻量、有态度。">
   <section class="container page">
-    <SectionTitle title="观点" subtitle="不需要长篇解释的即时判断。" />
+    <SectionTitle title="观点" subtitle="不需要长篇解释的即时判断。" code="SHORT NOTES / 02" />
     {entries.length === 0 ? <p class="empty-state">观点正在整理中。</p> : (
       <div class="card-grid">
         {entries.map((entry) => (

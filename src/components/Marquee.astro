@@ -1,0 +1,20 @@
+---
+import { siteConfig } from "../config/site";
+
+const words = siteConfig.keywords;
+---
+
+<section class="keyword-marquee" aria-label="个人关键词">
+  <div class="marquee-track">
+    {[0, 1].map((copy) => (
+      <ul class="marquee-list" aria-hidden={copy === 1 ? "true" : undefined}>
+        {words.map((word) => (
+          <li>
+            <span>{word}</span>
+            <span class="marquee-slash" aria-hidden="true">/</span>
+          </li>
+        ))}
+      </ul>
+    ))}
+  </div>
+</section>

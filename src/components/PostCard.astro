@@ -9,14 +9,19 @@ interface Props {
   date: Date;
   summary: string;
   tags: string[];
+  kind?: string;
 }
 
-const { title, href, date, summary, tags } = Astro.props;
+const { title, href, date, summary, tags, kind = "FILE" } = Astro.props;
 ---
 
 <article class="card post-card">
   <a class="card-link" href={with_base(href)}>
-    <time datetime={date.toISOString()}>{format_date(date)}</time>
+    <span class="card-corner" aria-hidden="true"></span>
+    <div class="card-meta">
+      <time datetime={date.toISOString()}>{format_date(date)}</time>
+      <span class="card-kind">{kind}</span>
+    </div>
     <h3>{title}</h3>
     <p>{summary}</p>
     <TagList tags={tags} />
