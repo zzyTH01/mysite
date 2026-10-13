@@ -12,8 +12,6 @@ const requiredRoutes = [
   "life/index.html",
   "resources/index.html",
   "404.html",
-  "blog/first-race-weekend/index.html",
-  "blog/cycling-city-observation/index.html",
   "notes/anime-and-personal-taste/index.html",
   "notes/study-with-vibe/index.html",
   "notes/slow-down-shoot-more/index.html",

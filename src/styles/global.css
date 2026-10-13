@@ -1076,6 +1076,28 @@ button {
   text-align: right;
 }
 
+.profile-section {
+  margin-top: 3.5rem;
+}
+
+.project-grid {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: 1.8rem;
+}
+
+.project-link {
+  min-height: 100%;
+}
+
+.project-domain {
+  color: var(--foreground);
+  font-family: var(--display-font);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .resources-grid {
   grid-template-columns: 1fr;
 }
@@ -1361,6 +1383,10 @@ button {
 
 @media (min-width: 1000px) {
   .card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .project-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 

@@ -1,38 +1,45 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import TagList from "../components/TagList.astro";
-import { siteConfig } from "../config/site";
+import { profileConfig, siteConfig } from "../config/site";
 import { with_base } from "../lib/paths";
 
 const stats = [
-  { label: "摄影", value: 82 },
-  { label: "骑行", value: 88 },
-  { label: "音乐", value: 78 },
-  { label: "二次元", value: 92 },
-  { label: "赛车", value: 84 },
+  { label: "CFD", value: 88 },
+  { label: "ROM", value: 90 },
+  { label: "Python", value: 86 },
+  { label: "ML", value: 80 },
+  { label: "TypeScript", value: 72 },
   { label: "Vibe", value: 99 },
 ];
+
+const domains = ["能源与机器学习", "机器学习与叙事系统", "工程与仿真工具"] as const;
 ---
 
-<BaseLayout title="关于 · 高瞻远瞩" description={siteConfig.description}>
+<BaseLayout title="关于 · 高瞻远瞩" description={`${profileConfig.legalName}（${siteConfig.id}），清华大学能源与动力工程系本科生，关注计算物理、流场仿真与机器学习交叉方向。`}>
   <section class="container page">
     <p class="eyebrow">KNOW THE PERSON</p>
     <h1 class="page-title">关于档案</h1>
 
     <div class="profile-grid">
       <article class="profile-card" data-reveal>
-        <p class="eyebrow">DRIVER PROFILE</p>
-        <p class="lead">我是{siteConfig.id}，一名{siteConfig.role}。我把学习、城市、速度和爱好放进同一个观察系统：赛车教我看节奏与决策，骑行让我理解距离，摄影保存光线，音乐和二次元保存情绪。</p>
+        <p class="eyebrow">PERSONAL FILE</p>
+        <p class="lead">
+          我是{profileConfig.legalName}，网络 ID「{siteConfig.id}」。我目前在{profileConfig.university}
+          {profileConfig.college}学习{profileConfig.major}，关注计算物理与机器学习的交叉方向：降阶代理建模、流场分析、时间序列预测和数据驱动方法。
+        </p>
         <TagList tags={[...siteConfig.keywords]} />
         <ul class="profile-details">
-          <li><strong>Role</strong><span>{siteConfig.role}</span></li>
-          <li><strong>Base</strong><span>中国</span></li>
-          <li><strong>Status</strong><span>学习 / 记录 / 探索中</span></li>
+          <li><strong>Name</strong><span>{profileConfig.legalName} / {siteConfig.id}</span></li>
+          <li><strong>University</strong><span>{profileConfig.university}</span></li>
+          <li><strong>Department</strong><span>{profileConfig.college}</span></li>
+          <li><strong>Major</strong><span>{profileConfig.major}</span></li>
+          <li><strong>Period</strong><span>{profileConfig.period}</span></li>
           <li><strong>Contact</strong><span>{siteConfig.email}</span></li>
         </ul>
       </article>
 
-      <ul class="stat-list" data-reveal aria-label="兴趣强度">
+      <ul class="stat-list" data-reveal aria-label="技术能力">
         {stats.map((stat) => (
           <li class="stat-row">
             <span>{stat.label}</span>
@@ -43,32 +50,65 @@ const stats = [
       </ul>
     </div>
 
+    <section class="profile-section" data-reveal>
+      <div class="section-heading">
+        <span class="section-slash" aria-hidden="true"></span>
+        <div>
+          <p class="section-code">RESEARCH / FOCUS</p>
+          <h2>研究兴趣</h2>
+        </div>
+      </div>
+      <p class="lead">{profileConfig.researchStatement}</p>
+    </section>
+
+    {domains.map((domain) => (
+      <section class="profile-section" data-reveal>
+        <div class="section-heading">
+          <span class="section-slash" aria-hidden="true"></span>
+          <div>
+            <p class="section-code">PROJECTS</p>
+            <h2>{domain}</h2>
+          </div>
+        </div>
+        <div class="project-grid">
+          {profileConfig.projects.filter((project) => project.domain === domain).map((project) => (
+            <article class="card project-card">
+              <a class="card-link project-link" href={project.href} target="_blank" rel="noopener noreferrer">
+                <span class="card-corner" aria-hidden="true"></span>
+                <div class="card-meta">
+                  <span class="project-domain">{project.domain}</span>
+                  <span class="card-kind">OPEN</span>
+                </div>
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+                <TagList tags={[...project.tags]} />
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+
     <div class="about-grid">
       <section class="about-card" data-reveal>
-        <h2>Education</h2>
-        <p>当前为占位信息：在校学生，学习方向持续探索中。</p>
-        <p class="muted">后续可以在这里补充学校、专业、时间段和代表性课程。</p>
-      </section>
-      <section class="about-card" data-reveal>
-        <h2>Projects</h2>
+        <h2>Activities</h2>
         <ul>
-          <li><strong>个人网站</strong>：记录观点、博客和生活。</li>
-          <li><strong>城市骑行记录</strong>：保存路线、感受与街头照片。</li>
-          <li><strong>摄影小集</strong>：关注光线、红色元素和城市节奏。</li>
+          {profileConfig.activities.map((activity) => <li>{activity}</li>)}
         </ul>
       </section>
+
       <section class="about-card" data-reveal>
-        <h2>Skills</h2>
+        <h2>Interests</h2>
         <ul>
-          <li>内容写作：博客、短观点、生活记录。</li>
-          <li>视觉观察：街头摄影、光线与构图。</li>
-          <li>运动习惯：城市骑行与节奏训练。</li>
-          <li>兴趣研究：动画、赛车、音乐现场。</li>
+          {Object.entries(profileConfig.interests).map(([key, value]) => (
+            <li><strong>{key.toUpperCase()}</strong>：{value}</li>
+          ))}
         </ul>
       </section>
+
       <section class="about-card" data-reveal>
         <h2>Contact</h2>
-        <p>欢迎交流学习、摄影、骑行或个人网站相关的话题。</p>
+        <p>欢迎交流计算物理、机器学习、赛车、摄影、骑行或个人网站相关的话题。</p>
         <ul class="footer-links">
           {siteConfig.social.map((item) => (
             <li>
@@ -84,6 +124,12 @@ const stats = [
           <span class="command-label">GET CV</span>
           <span class="command-detail">下载简历 PDF</span>
         </a>
+      </section>
+
+      <section class="about-card" data-reveal>
+        <h2>Blog</h2>
+        <p>博客正在整理中。后续会在这里发布研究笔记、项目复盘和兴趣记录。</p>
+        <a class="ghost-button" href={with_base("/blog/")}>查看博客入口</a>
       </section>
     </div>
   </section>
