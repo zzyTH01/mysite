@@ -1,38 +1,14 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import SectionTitle from "../components/SectionTitle.astro";
-import PostCard from "../components/PostCard.astro";
 import LifeCard from "../components/LifeCard.astro";
 import Marquee from "../components/Marquee.astro";
 import { siteConfig } from "../config/site";
 import { sort_by_date_desc, visibleEntries } from "../lib/content";
-import { latest_items } from "../lib/homepage";
 import { with_base } from "../lib/paths";
 
-const posts = visibleEntries(await getCollection("blog"), import.meta.env.PROD);
-const notes = visibleEntries(await getCollection("notes"), import.meta.env.PROD);
 const lifeEntries = sort_by_date_desc(visibleEntries(await getCollection("life"), import.meta.env.PROD));
 
-const latestUpdates = latest_items(
-  posts.map((entry) => ({
-    data: { date: entry.data.date },
-    title: entry.data.title,
-    href: `/blog/${entry.id}/`,
-    summary: entry.data.description,
-    tags: entry.data.tags,
-    kind: "BLOG",
-  })),
-  notes.map((entry) => ({
-    data: { date: entry.data.date },
-    title: entry.data.title,
-    href: `/notes/${entry.id}/`,
-    summary: "点击阅读这条短观点。",
-    tags: entry.data.tags,
-    kind: "NOTE",
-  })),
-  { limit: 4 },
-);
 ---
 
 <BaseLayout title={`${siteConfig.id} · ${siteConfig.role}`} description={siteConfig.description}>
@@ -68,18 +44,13 @@ const latestUpdates = latest_items(
   <Marquee />
 
   <section class="container section">
-    <SectionTitle title="最新内容" subtitle="博客和观点合并展示，保持首页新鲜。" code="LATEST / 04" />
-    <div class="card-grid homepage-grid">
-      {latestUpdates.map((entry) => (
-        <div class="kind-wrapper" data-reveal>
-          <PostCard title={entry.title} href={entry.href} date={entry.data.date} summary={entry.summary} tags={entry.tags} kind={entry.kind} />
-        </div>
-      ))}
+    <div class="section-heading">
+      <span class="section-slash" aria-hidden="true"></span>
+      <div>
+        <p class="section-code">LIFE LOG / 03</p>
+        <h2>最近生活</h2>
+      </div>
     </div>
-  </section>
-
-  <section class="container section">
-    <SectionTitle title="最近生活" subtitle="骑行、摄影、动画和音乐留下的碎片。" code="LIFE LOG" />
     <div class="life-grid home-life-grid">
       {lifeEntries.slice(0, 3).map((entry, index) => (
         <div data-reveal>
@@ -98,17 +69,4 @@ const latestUpdates = latest_items(
     </div>
   </section>
 
-  <section class="container">
-    <div class="cta-panel" data-reveal>
-      <div>
-        <p class="eyebrow">NEXT COMMAND</p>
-        <h2>简历与资源</h2>
-        <p>查看我的学生简历，或下载用于整理内容的清单。</p>
-      </div>
-      <div class="cta-actions">
-        <a class="resource-button" href={with_base("/about/")}>查看简历页</a>
-        <a class="ghost-button" href={with_base("/resources/")}>资源下载</a>
-      </div>
-    </div>
-  </section>
 </BaseLayout>

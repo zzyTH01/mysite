@@ -18,11 +18,11 @@ npm run verify     # 运行测试、检查、构建和静态验收
 ## 网站结构
 
 - 首页：身份、关键词、最新内容和生活记录。
-- `/about/`：真实身份、教育方向、公开项目、活动、兴趣、联系方式和简历下载。
+- `/about/`：网络 ID、兴趣方向、精选公开项目和 GitHub 入口。
 - `/blog/`：较长文章。当前保持空态，后续把 Markdown 文件中的 `draft` 改为 `false` 即可发布。
 - `/notes/`：短观点。
 - `/life/`：生活记录时间线。
-- `/resources/`：简历、模板和其他可分享资源。
+- `/resources/`：模板和其他可分享资源。
 
 ## 添加博客
 
@@ -97,16 +97,6 @@ draft: false
   href: "/downloads/example.txt",
 }
 ```
-
-## 替换简历
-
-把正式简历导出为 PDF，替换：
-
-```text
-public/downloads/gaozhangyuanzhu-resume.pdf
-```
-
-保持文件名不变时，网站中的下载按钮不需要修改。如果改名，同步更新 `src/data/resources.ts` 和 `src/pages/about.astro`。
 
 ## 发布到 GitHub Pages
 

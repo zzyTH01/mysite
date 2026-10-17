@@ -1,136 +1,54 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import TagList from "../components/TagList.astro";
-import { profileConfig, siteConfig } from "../config/site";
+import { publicProfile, siteConfig } from "../config/site";
 import { with_base } from "../lib/paths";
-
-const stats = [
-  { label: "CFD", value: 88 },
-  { label: "ROM", value: 90 },
-  { label: "Python", value: 86 },
-  { label: "ML", value: 80 },
-  { label: "TypeScript", value: 72 },
-  { label: "Vibe", value: 99 },
-];
-
-const domains = ["能源与机器学习", "机器学习与叙事系统", "工程与仿真工具"] as const;
 ---
 
-<BaseLayout title="关于 · 高瞻远瞩" description={`${profileConfig.legalName}（${siteConfig.id}），清华大学能源与动力工程系本科生，关注计算物理、流场仿真与机器学习交叉方向。`}>
+<BaseLayout title="关于 · 高瞻远瞩" description={`${siteConfig.id}的个人档案：${publicProfile.focus}`}>
   <section class="container page">
-    <p class="eyebrow">KNOW THE PERSON</p>
-    <h1 class="page-title">关于档案</h1>
+    <p class="eyebrow">ABOUT</p>
+    <h1 class="page-title">{siteConfig.id}</h1>
 
-    <div class="profile-grid">
-      <article class="profile-card" data-reveal>
-        <p class="eyebrow">PERSONAL FILE</p>
-        <p class="lead">
-          我是{profileConfig.legalName}，网络 ID「{siteConfig.id}」。我目前在{profileConfig.university}
-          {profileConfig.college}学习{profileConfig.major}，关注计算物理与机器学习的交叉方向：降阶代理建模、流场分析、时间序列预测和数据驱动方法。
-        </p>
-        <TagList tags={[...siteConfig.keywords]} />
-        <ul class="profile-details">
-          <li><strong>Name</strong><span>{profileConfig.legalName} / {siteConfig.id}</span></li>
-          <li><strong>University</strong><span>{profileConfig.university}</span></li>
-          <li><strong>Department</strong><span>{profileConfig.college}</span></li>
-          <li><strong>Major</strong><span>{profileConfig.major}</span></li>
-          <li><strong>Period</strong><span>{profileConfig.period}</span></li>
-          <li><strong>Contact</strong><span>{siteConfig.email}</span></li>
-        </ul>
-      </article>
-
-      <ul class="stat-list" data-reveal aria-label="技术能力">
-        {stats.map((stat) => (
-          <li class="stat-row">
-            <span>{stat.label}</span>
-            <span class="stat-track"><span class="stat-fill" style={`width:${stat.value}%`}></span></span>
-            <span class="stat-value">{stat.value}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <article class="profile-card" data-reveal>
+      <p class="eyebrow">NETWORK ID</p>
+      <p class="lead">{siteConfig.role} / {siteConfig.tagline}</p>
+      <p>{publicProfile.focus}</p>
+      <TagList tags={[...siteConfig.keywords]} />
+      <div class="simple-actions">
+        <a class="resource-button" href="https://github.com/zzyTH01" target="_blank" rel="noopener noreferrer">
+          <span class="command-label">GitHub</span>
+          <span class="command-detail">查看公开项目</span>
+        </a>
+        <a class="ghost-button" href={with_base("/")}>返回首页</a>
+      </div>
+    </article>
 
     <section class="profile-section" data-reveal>
       <div class="section-heading">
         <span class="section-slash" aria-hidden="true"></span>
         <div>
-          <p class="section-code">RESEARCH / FOCUS</p>
-          <h2>研究兴趣</h2>
+          <p class="section-code">PROJECTS / 03</p>
+          <h2>精选项目</h2>
         </div>
       </div>
-      <p class="lead">{profileConfig.researchStatement}</p>
+
+      <div class="project-grid">
+        {publicProfile.projects.map((project) => (
+          <article class="card project-card">
+            <a class="card-link project-link" href={project.href} target="_blank" rel="noopener noreferrer">
+              <span class="card-corner" aria-hidden="true"></span>
+              <div class="card-meta">
+                <span class="project-domain">OPEN SOURCE</span>
+                <span class="card-kind">REPO</span>
+              </div>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              <TagList tags={[...project.tags]} />
+            </a>
+          </article>
+        ))}
+      </div>
     </section>
-
-    {domains.map((domain) => (
-      <section class="profile-section" data-reveal>
-        <div class="section-heading">
-          <span class="section-slash" aria-hidden="true"></span>
-          <div>
-            <p class="section-code">PROJECTS</p>
-            <h2>{domain}</h2>
-          </div>
-        </div>
-        <div class="project-grid">
-          {profileConfig.projects.filter((project) => project.domain === domain).map((project) => (
-            <article class="card project-card">
-              <a class="card-link project-link" href={project.href} target="_blank" rel="noopener noreferrer">
-                <span class="card-corner" aria-hidden="true"></span>
-                <div class="card-meta">
-                  <span class="project-domain">{project.domain}</span>
-                  <span class="card-kind">OPEN</span>
-                </div>
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-                <TagList tags={[...project.tags]} />
-              </a>
-            </article>
-          ))}
-        </div>
-      </section>
-    ))}
-
-    <div class="about-grid">
-      <section class="about-card" data-reveal>
-        <h2>Activities</h2>
-        <ul>
-          {profileConfig.activities.map((activity) => <li>{activity}</li>)}
-        </ul>
-      </section>
-
-      <section class="about-card" data-reveal>
-        <h2>Interests</h2>
-        <ul>
-          {Object.entries(profileConfig.interests).map(([key, value]) => (
-            <li><strong>{key.toUpperCase()}</strong>：{value}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section class="about-card" data-reveal>
-        <h2>Contact</h2>
-        <p>欢迎交流计算物理、机器学习、赛车、摄影、骑行或个人网站相关的话题。</p>
-        <ul class="footer-links">
-          {siteConfig.social.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                target={item.external ? "_blank" : undefined}
-                rel={item.external ? "noopener noreferrer" : undefined}
-              >{item.label}</a>
-            </li>
-          ))}
-        </ul>
-        <a class="resource-button" href={with_base("/downloads/gaozhangyuanzhu-resume.pdf")} download>
-          <span class="command-label">GET CV</span>
-          <span class="command-detail">下载简历 PDF</span>
-        </a>
-      </section>
-
-      <section class="about-card" data-reveal>
-        <h2>Blog</h2>
-        <p>博客正在整理中。后续会在这里发布研究笔记、项目复盘和兴趣记录。</p>
-        <a class="ghost-button" href={with_base("/blog/")}>查看博客入口</a>
-      </section>
-    </div>
   </section>
 </BaseLayout>

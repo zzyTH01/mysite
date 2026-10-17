@@ -20,7 +20,6 @@ const requiredRoutes = [
   "life/music-photowalk/index.html",
 ];
 const requiredFiles = [
-  "downloads/gaozhangyuanzhu-resume.pdf",
   "downloads/personal-site-starter-checklist.txt",
 ];
 
@@ -61,6 +60,14 @@ const homepagePath = path.join(distDir, "index.html");
 const homepage = await readFile(homepagePath, "utf8");
 for (const text of ["高瞻远瞩", "学生", "二次元", "赛车", "摄影", "骑行", "音乐", "Vibe"]) {
   if (!homepage.includes(text)) errors.push(`Homepage is missing required text: ${text}`);
+}
+
+const distSources = await htmlFiles(distDir);
+for (const file of distSources) {
+  const html = await readFile(file, "utf8");
+  if (/张瞻远|清华大学|能源与动力工程|zhanyuan23@mails\.tsinghua\.edu\.cn|18534900536/.test(html)) {
+    errors.push(`Sensitive identity content found in ${path.relative(distDir, file)}`);
+  }
 }
 
 const files = await htmlFiles(distDir);

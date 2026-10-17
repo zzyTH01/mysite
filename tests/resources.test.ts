@@ -3,7 +3,7 @@ import { available_resources, resources } from "../src/data/resources";
 
 describe("resources", () => {
   it("starts with at least two resources", () => {
-    expect(resources.length).toBeGreaterThanOrEqual(2);
+    expect(resources.length).toBeGreaterThanOrEqual(1);
   });
 
   it("hides unavailable resources", () => {
